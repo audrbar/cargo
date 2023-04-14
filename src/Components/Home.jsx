@@ -1,8 +1,11 @@
+import Navbar from "./Navbar";
+
 function Home() {
 
     return (
         <div className="container">
             <div className="row justify-content-center">
+                <Navbar />
                 <div className="col-5">
                     <div className="card mt-4">
                         <p>Cargo App</p>
