@@ -34,7 +34,7 @@ app.use(express.json());
 
 app.get('/goods', (req, res) => {
     const sql = `
-        SELECT id, title, weight, flammable, perishable, image
+        SELECT id, title, weight, flammable, perishable
         FROM goods
     `;
     con.query(sql, (err, result) => {

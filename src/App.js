@@ -1,4 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './index.css';
 import { GlobalProvider } from './Components/GlobalContext';
 import ModalDelete from './Components/ModalDelete';
 import ModalAdd from './Components/ModalAdd';

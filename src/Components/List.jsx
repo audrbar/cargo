@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { Global } from './GlobalContext';
 import Footer from './Footer';
 
@@ -7,61 +7,21 @@ const List = () => {
         useContext(Global);
 
     return (
-        <div className="container mx-auto flex flex-col items-center justify-between p-4 rounded-xl shadow-md">
-            <div className="flex flex-col w-full items-center justify-between md:flex-row">
-                <div>
-                    <p className="text-xl">Goods List</p>
-                </div>
-            </div>
+        <div className="card">
+            <p className="card-header">Goods Cargo List</p>
             {list?.length ? (
                 list?.map((good) => (
-                    <div
-                        key={good.id}
-                        className="flex flex-col items-center justify-between w-full shadow-md rounded-x md:flex-row"
-                    >
-                        <ul className="flex flex-row items-center justify-between w-full p-1">
-                            <li className="p-2">
-                                <h2>
-                                    <span className="text-slate-400">
-                                        Title:{' '}
-                                    </span>
-                                    {good.title}
-                                </h2>
-                            </li>
-                            <li className="p-2">
-                                <h2>
-                                    <span className="text-slate-400">
-                                        Weight:{' '}
-                                    </span>
-                                    {good.weight}
-                                </h2>
-                            </li>
-                            <li className="p-2">
-                                <h2>
-                                    <span className="text-slate-400">
-                                        Flammable:{' '}
-                                    </span>
-                                    {good.flammable}
-                                    <span className="text-slate-400"> $</span>
-                                </h2>
-                            </li>
-                            <li className="p-2">
-                                <h2>
-                                    <span className="text-slate-400">
-                                        Perishable:{' '}
-                                    </span>
-                                    {good.perishable}
-                                    <span className="text-slate-400"> $</span>
-                                </h2>
-                            </li>
-                        </ul>
-                        <div className="flex flex-row justify-between p-1">
-
-                        </div>
-                    </div>
+                    <ul key={good.id} className="list-group-item">
+                        <li className="list-group-item">
+                            Title:{' '}{good.title}
+                            Weight:{' '}{good.weight}
+                            Flammable:{' '}{good.flammable}
+                            Erishable:{' '}{good.perishable}
+                        </li>
+                    </ul>
                 ))
             ) : (
-                <p className="pt-2 text-xl text-red-600">Nothing to show!</p>
+                <h2>Nothing to show!</h2>
             )}
             <Footer />
         </div>
