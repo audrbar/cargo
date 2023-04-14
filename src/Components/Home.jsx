@@ -1,5 +1,6 @@
 import Footer from "./Footer";
 import Navbar from "./Navbar";
+import Totals from "./Totals";
 
 function Home() {
 
@@ -15,6 +16,7 @@ function Home() {
                         </div>
                     </div>
                 </div>
+                <Totals />
                 <Footer />
             </div>
         </div>
