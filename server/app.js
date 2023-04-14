@@ -60,6 +60,30 @@ app.listen(port, () => {
     console.log(`LN is on port number: ${port}`);
 });
 
+app.delete('/goods/:id', (req, res) => {
+
+    const sql = `
+        SELECT id, amount, blocked
+        FROM goods
+        WHERE id = ?
+    `;
+
+    con.query(sql, [req.params.id], (err, [account]) => {
+        if (err) throw err;
+        const sql = `
+        DELETE FROM goods
+        WHERE id = ?
+    `;
+        con.query(sql, [req.params.id], (err) => {
+            if (err) throw err;
+            res.json({
+                message: { text: 'The cargo item was deleted.', 'type': 'danger' }
+            });
+        });
+    })
+});
+
+
 // Login Login Login Login Login Login Login Login Login Login Login Login Login Login
 
 app.post('/login', (req, res) => {
