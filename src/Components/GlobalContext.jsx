@@ -49,7 +49,7 @@ export const GlobalProvider = ({ children }) => {
             .get('http://localhost:3003/login', { withCredentials: true })
             .then((res) => {
                 if (res.data.status === 'ok') {
-                    setRoute('accounts');
+                    setRoute('cargos-list-page');
                     setLogged(true);
                     setAuthName(res.data.name);
                 }

@@ -1,13 +1,13 @@
 import React from 'react'
 import Footer from './Footer';
-import List from './List';
+import CargosList from './CargosList';
 import Navbar from './Navbar';
 
 const CargosListPage = () => {
     return (
         <>
             <Navbar />
-            <List />
+            <CargosList />
             <Footer />
         </>
     )

@@ -23,7 +23,7 @@ const CreateCargo = () => {
     };
 
     return (
-        <div className="card mt-4">
+        <div className="card mx-auto col-8 mt-4">
             <div className="card-header">Create a cargo</div>
             <div className="card-body">
                 <label className="form-label">Cargo title</label>

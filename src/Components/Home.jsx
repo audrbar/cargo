@@ -5,8 +5,8 @@ function Home() {
 
     return (
         <div className="container">
+            <Navbar />
             <div className="row justify-content-center">
-                <Navbar />
                 <div className="col-10 text-center">
                     <div className="card mt-4">
                         <h3>We are number ONE cargo company!</h3>

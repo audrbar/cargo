@@ -2,21 +2,20 @@ import { useContext, useState } from 'react';
 import { Global } from './GlobalContext';
 import Footer from './Footer';
 
-const List = () => {
+const CargosList = () => {
     const { list, setDeleteModal, setAddModal, setRemModal, setEdit } =
         useContext(Global);
 
     return (
-        <div className="card">
+        <div className="card mx-auto col-10 mt-5">
             <p className="card-header">Goods Cargo List</p>
             {list?.length ? (
                 list?.map((good) => (
                     <ul key={good.id} className="list-group-item">
                         <li className="list-group-item">
-                            Title:{' '}{good.title}
-                            Weight:{' '}{good.weight}
-                            Flammable:{' '}{good.flammable}
-                            Erishable:{' '}{good.perishable}
+                            {good.title}{': '}{good.weight}{' kg, '}
+                            {good.flammable ? 'flammable, ' : 'not flammable, '}
+                            {good.perishable ? 'perishable, ' : 'not perishable; '}
                         </li>
                     </ul>
                 ))
@@ -27,4 +26,4 @@ const List = () => {
     );
 };
 
-export default List;
+export default CargosList;
