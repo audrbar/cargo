@@ -56,10 +56,6 @@ app.post('/goods', (req, res) => {
     });
 });
 
-app.listen(port, () => {
-    console.log(`LN is on port number: ${port}`);
-});
-
 app.delete('/goods/:id', (req, res) => {
 
     const sql = `
@@ -135,4 +131,8 @@ app.get('/login', (req, res) => {
             });
         }
     });
+});
+
+app.listen(port, () => {
+    console.log(`LN is on port number: ${port}`);
 });
