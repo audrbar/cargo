@@ -1,16 +1,16 @@
 import React from 'react'
-import CreateCargo from './CreateCargo';
+import Footer from './Footer';
 import List from './List';
 import Navbar from './Navbar';
 
-const Cargos = () => {
+const CargosListPage = () => {
     return (
         <>
             <Navbar />
-            <CreateCargo />
             <List />
+            <Footer />
         </>
     )
 }
 
-export default Cargos;
+export default CargosListPage;

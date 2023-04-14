@@ -2,8 +2,8 @@ import { useContext } from "react";
 import { Global } from "./GlobalContext";
 import Home from "./Home";
 import Login from "./Login";
-import Cargos from "./Cargos";
-import CreateCargo from "./CreateCargo";
+import CargosListPage from "./CargosListPage";
+import CreateCargoPage from "./CreateCargoPage";
 
 function Routes() {
 
@@ -11,8 +11,8 @@ function Routes() {
 
     switch (route) {
         case 'home': return <Home />
-        case 'cargos': return <Cargos />
-        case 'create-cargos': return <CreateCargo />
+        case 'cargos-list-page': return <CargosListPage />
+        case 'create-cargo-page': return <CreateCargoPage />
         case 'login': return <Login />
         default: return null
     }

@@ -18,13 +18,13 @@ const Navbar = () => {
                                 }>Home</span>
                             </li>
                             <li className="nav-item">
-                                <span onClick={_ => setRoute('cargos')} className={
-                                    'nav-link' + (route === 'cargos' ? ' active' : '')
+                                <span onClick={_ => setRoute('cargos-list-page')} className={
+                                    'nav-link' + (route === 'cargos-list-page' ? ' active' : '')
                                 }>Cargos</span>
                             </li>
                             <li className="nav-item">
-                                <span onClick={_ => setRoute('create-cargo')} className={
-                                    'nav-link' + (route === 'create-cargo' ? ' active' : '')
+                                <span onClick={_ => setRoute('create-cargo-page')} className={
+                                    'nav-link' + (route === 'create-cargo-page' ? ' active' : '')
                                 }>Create Cargo</span>
                             </li>
                         </ul>

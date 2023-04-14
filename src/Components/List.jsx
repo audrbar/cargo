@@ -23,7 +23,6 @@ const List = () => {
             ) : (
                 <h2>Nothing to show!</h2>
             )}
-            <Footer />
         </div>
     );
 };
