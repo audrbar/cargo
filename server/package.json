@@ -1,15 +1,23 @@
 {
-  "name": "server",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "express": "^4.18.2"
-  }
+    "name": "server",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "nodemon app.js"
+    },
+    "keywords": [
+        "nodejs",
+        "server"
+    ],
+    "author": "aurbar",
+    "license": "MIT",
+    "dependencies": {
+        "cookie-parser": "^1.4.6",
+        "cors": "^2.8.5",
+        "express": "^4.18.2",
+        "md5": "^2.3.0",
+        "nodemon": "^2.0.22",
+        "uuid": "^9.0.0"
+    }
 }
