@@ -34,7 +34,7 @@ function ModalAdd() {
                     <div className="modal-title">
                         <input className="form-control" type="number" name="cargo" min="0" value={weight} onChange={e => setWeight(e.target.value)} />
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-outline-primary" onClick={add}>ADD</button>
+                            <button type="button" className="btn btn-outline-primary" onClick={add}>EDIT</button>
                             <button type="button" className="btn btn-outline-secondary" onClick={() => setAddModal(null)}>Cancel</button>
                         </div>
                     </div>

@@ -29,11 +29,11 @@ function ModalRemove() {
     return (
         <div className="modal">
             <div className="modal-dialog modal-dialog-centered">
-                <p className="text-xl p-1 text-gray-500">Withdraw from account?</p>
+                <p className="text-xl p-1 text-gray-500">Remove item?</p>
                 <div className="modal-content" type="number" max={remModal.amount} name="amount" min="0" value={amount} onChange={e => setAmount(e.target.value)} />
                 <div className="modal-footer">
                     <button type="button" className="btn btn-outline-socondary" onClick={() => setRemModal(null)}>Cancel</button>
-                    <button type="button" className="btn btn-outline-danger" onClick={rem}>WITHDRAW</button>
+                    <button type="button" className="btn btn-outline-danger" onClick={rem}>Remove</button>
                 </div>
             </div>
         </div>
