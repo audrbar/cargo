@@ -1,7 +1,7 @@
 import React from 'react';
-import CreateCargo from './CreateCargo';
-import Footer from './Footer';
-import Navbar from './Navbar';
+import CreateCargo from '../Components/CreateCargo';
+import Footer from '../Components/Footer';
+import Navbar from '../Components/Navbar';
 
 const CreateCargoPage = () => {
     return (

@@ -6,7 +6,7 @@ const Totals = () => {
 
     return (
         <div className="card mt-5">
-            <p className="card-header">Cargo Totals:</p>
+            <p className="card-header">Cargos Totals:</p>
             <ul className="list-group-item">
                 <li className="list-group-item m-2">
                     Cargo Items Total: {list === null ? null : list.length}

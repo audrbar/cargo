@@ -6,7 +6,7 @@ const CreateCargo = () => {
     const [weight, setWeight] = useState(0);
     const [flammable, setFlammable] = useState(0);
     const [perishable, setPerishable] = useState(0);
-    const { setCreate } = useContext(Global);
+    const { setCreate, setRoute } = useContext(Global);
 
     const create = (e) => {
         e.preventDefault();
@@ -20,6 +20,7 @@ const CreateCargo = () => {
         setWeight(0);
         setFlammable(0);
         setPerishable(0);
+        setRoute('cargos-list-page');
     };
 
     return (

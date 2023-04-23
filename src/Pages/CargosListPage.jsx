@@ -1,7 +1,7 @@
 import React from 'react'
-import Footer from './Footer';
-import CargosList from './CargosList';
-import Navbar from './Navbar';
+import Footer from '../Components/Footer';
+import CargosList from '../Components/CargosList';
+import Navbar from '../Components/Navbar';
 
 const CargosListPage = () => {
     return (

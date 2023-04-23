@@ -12,19 +12,18 @@ function Login() {
 
     const login = (e) => {
         e.preventDefault();
-        axios
-            .post(
-                'http://localhost:3003/login',
-                { name, psw },
-                { withCredentials: true }
-            )
+        axios.post(
+            'http://localhost:3003/login',
+            { name, psw },
+            { withCredentials: true }
+        )
             .then((res) => {
                 if (res.data.status === 'ok') {
                     setUserName(res.data.name);
                     setName('');
                     setPsw('');
                     setError(null);
-                    setRoute('cargos-list-page');
+                    setRoute('home');
                     setLogged(true);
                     setAuthName(res.data.name);
                 } else {
@@ -35,42 +34,47 @@ function Login() {
     };
 
     return (
-        <div className="card mx-auto col-8 mt-4">
-            <div className="card-header">
-                {error ? (
-                    <span style={{ color: 'crimson' }}>Login Error</span>
-                ) : (
-                    <span>Login</span>
-                )}
-            </div>
-            <div className="card-body">
-                <label className="form-label">
-                    {userName ? (
-                        <span>Hello, {userName}!</span>
+        <div className="col-5 mx-auto mt-4">
+            <div className="card">
+                <div className="card-header">
+                    {error ? (
+                        <span style={{ color: 'crimson' }}>Login Error</span>
                     ) : (
-                        <span>Hello, quest! </span>
+                        <span>Login</span>
                     )}
-                </label>
-                <input
-                    className="form-control mt-2"
-                    type="text"
-                    placeholder="Your Name..."
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                />
-                <input
-                    className="form-control mt-3"
-                    placeholder="Your Password..."
-                    value={psw}
-                    onChange={(e) => setPsw(e.target.value)}
-                />
-                <button
-                    className="btn btn-outline-primary mt-2"
-                    onClick={login}
-                >
-                    Login
-                </button>
+                </div>
+                <div className="card-body">
+                    <label className="form-label">
+                        {userName ? (
+                            <span>Hello, {userName}!</span>
+                        ) : (
+                            <span>Hello, quest! </span>
+                        )}
+                    </label>
+                    <input
+                        className="form-control mt-2"
+                        type="text"
+                        placeholder="Your Name..."
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                    />
+                    <input
+                        className="form-control mt-3"
+                        placeholder="Your Password..."
+                        value={psw}
+                        onChange={(e) => setPsw(e.target.value)}
+                    />
+                    <button
+                        className="btn btn-outline-primary mt-2"
+                        onClick={login}
+                    >
+                        Login
+                    </button>
+                </div>
             </div>
+            <p className="nav-item text-center mt-4" role="button" onClick={_ => setRoute('home')}>
+                Back to home
+            </p>
         </div>
     );
 }

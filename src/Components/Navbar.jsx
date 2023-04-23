@@ -11,16 +11,16 @@ const Navbar = () => {
                 <div className="navbar-brand">CargoInt</div>
                 <div className="nav-top">
                     <ul className="navbar-nav">
-                        <li className="nav-item cursor-pointer">
-                            <span onClick={_ => setRoute('home')} className={
+                        <li className="nav-item">
+                            <span onClick={_ => setRoute('home')} role="button" className={
                                 'nav-link' + (route === 'home' ? ' active' : '')
                             }>Home</span>
                         </li>
                         {
                             authName ?
                                 (
-                                    <li className="nav-item cursor-pointer">
-                                        <span onClick={_ => setRoute('cargos-list-page')} className={
+                                    <li className="nav-item">
+                                        <span onClick={_ => setRoute('cargos-list-page')} role="button" className={
                                             'nav-link' + (route === 'cargos-list-page' ? ' active' : '')
                                         }>Cargos</span>
                                     </li>
@@ -29,8 +29,8 @@ const Navbar = () => {
                         {
                             authName ?
                                 (
-                                    <li className="nav-item cursor-pointer">
-                                        <span onClick={_ => setRoute('create-cargo-page')} className={
+                                    <li className="nav-itemr">
+                                        <span onClick={_ => setRoute('create-cargo-page')} role="button" className={
                                             'nav-link' + (route === 'create-cargo-page' ? ' active' : '')
                                         }>Create Cargo</span>
                                     </li>
@@ -43,18 +43,23 @@ const Navbar = () => {
                         authName ?
                             (
                                 <>
-                                    <li className="nav-item cursor-pointer">
+                                    <li className="nav-item">
                                         <span className="nav-link"><b>{authName}</b></span>
                                     </li>
                                     <li className="nav-item">
-                                        <span className="nav-link" onClick={logOut}>Logout</span>
+                                        <span className="nav-link" role="button" onClick={logOut}>Logout</span>
                                     </li>
                                 </>
                             ) :
                             (
-                                <li className="nav-item cursor-pointer">
-                                    <span onClick={_ => setRoute('login')} className="nav-link">Login</span>
-                                </li>
+                                <>
+                                    <li className="nav-item">
+                                        <span onClick={_ => setRoute('login')} role="button" className="nav-link">Login</span>
+                                    </li>
+                                    <li className="nav-item">
+                                        <span onClick={_ => setRoute('register')} role="button" className="nav-link">Register</span>
+                                    </li>
+                                </>
                             )
 
                     }

@@ -2,8 +2,9 @@ import { useContext } from "react";
 import { Global } from "./GlobalContext";
 import Home from "./Home";
 import Login from "./Login";
-import CargosListPage from "./CargosListPage";
-import CreateCargoPage from "./CreateCargoPage";
+import Register from "./Register";
+import CargosListPage from "../Pages/CargosListPage";
+import CreateCargoPage from "../Pages/CreateCargoPage";
 
 function Routes() {
 
@@ -14,6 +15,7 @@ function Routes() {
         case 'cargos-list-page': return <CargosListPage />
         case 'create-cargo-page': return <CreateCargoPage />
         case 'login': return <Login />
+        case 'register': return <Register />
         default: return null
     }
 }
