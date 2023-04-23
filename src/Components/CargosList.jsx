@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { Global } from './GlobalContext';
 
 const CargosList = () => {
-    const { list, setDeleteModal, setAddModal, setRemModal, setEdit } =
+    const { list, deleteGood, setRoute } =
         useContext(Global);
 
     return (
@@ -18,9 +18,8 @@ const CargosList = () => {
                                 {good.perishable ? 'perishable; ' : 'not perishable; '}
                             </div>
                             <div>
-                                <button type="button" className="btn btn-outline-primary m-1" onClick={() => setAddModal(good)}>ADD</button>
-                                <button type="button" className="btn btn-outline-primary m-1" onClick={() => setRemModal(good)}>REM</button>
-                                <button type="button" className="btn btn-outline-danger m-1" onClick={() => setDeleteModal(good)}>DELETE</button>
+                                <button type="button" className="btn btn-outline-primary m-1" onClick={() => setRoute({ path: 'cargo-edit-page', data: { id: good.id } })}>EDIT</button>
+                                <button type="button" className="btn btn-outline-danger m-1" onClick={() => deleteGood(good.id)}>DELETE</button>
                             </div>
                         </li>
                     </ul>

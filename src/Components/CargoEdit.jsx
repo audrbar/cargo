@@ -1,16 +1,17 @@
 import { useContext, useState } from 'react';
 import { Global } from './GlobalContext';
 
-const CreateCargo = () => {
-    const [title, setTitle] = useState('');
-    const [weight, setWeight] = useState(0);
-    const [flammable, setFlammable] = useState(0);
-    const [perishable, setPerishable] = useState(0);
-    const { createGood, setRoute } = useContext(Global);
+const CargoEdit = ({ id }) => {
+    const { list, editGood, setRoute } = useContext(Global);
+    const cargoItem = list.find(good => (good.id) === id);
+    const [title, setTitle] = useState(cargoItem.title);
+    const [weight, setWeight] = useState(cargoItem.weight);
+    const [flammable, setFlammable] = useState(cargoItem.flammable);
+    const [perishable, setPerishable] = useState(cargoItem.perishable);
 
-    const create = (e) => {
+    const edit = (e) => {
         e.preventDefault();
-        createGood({
+        editGood({
             title,
             weight: parseInt(weight),
             flammable: parseInt(flammable),
@@ -25,7 +26,7 @@ const CreateCargo = () => {
 
     return (
         <div className="card mx-auto col-8 mt-4">
-            <div className="card-header text-center">Create a cargo</div>
+            <div className="card-header text-center">Edit a cargo</div>
             <div className="card-body">
                 <label className="form-label">Cargo title</label>
                 <input
@@ -47,7 +48,7 @@ const CreateCargo = () => {
                 <input
                     className="form-control"
                     type="number"
-                    name="amount"
+                    name="flammable"
                     min="0"
                     max="1"
                     value={flammable}
@@ -57,7 +58,7 @@ const CreateCargo = () => {
                 <input
                     className="form-control"
                     type="number"
-                    name="amount"
+                    name="perishable"
                     min="0"
                     max="1"
                     value={perishable}
@@ -66,9 +67,9 @@ const CreateCargo = () => {
                 <div className="flex flex-row items-center justify-between">
                     <button
                         className="btn btn-outline-primary mt-2"
-                        onClick={create}
+                        onClick={edit}
                     >
-                        CREATE
+                        Edit
                     </button>
                 </div>
             </div>
@@ -76,4 +77,4 @@ const CreateCargo = () => {
     );
 };
 
-export default CreateCargo;
+export default CargoEdit;

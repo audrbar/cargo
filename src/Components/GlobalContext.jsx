@@ -2,15 +2,10 @@ import { createContext, useEffect, useState } from 'react';
 import { useMessages } from '../Use/useMessages';
 import { useModal } from '../Use/useModal';
 import axios from 'axios';
-import { useRead } from '../Use/useRead';
-import { useWrite } from '../Use/useWrite';
 
 export const Global = createContext();
 
 export const GlobalProvider = ({ children }) => {
-    const [response, setCreate, setEdit, setDelete] =
-        useWrite();
-    const [list, setUpdate] = useRead();
     const [
         deleteModal,
         setDeleteModal,
@@ -23,20 +18,49 @@ export const GlobalProvider = ({ children }) => {
     const [route, setRoute] = useState('home');
     const [logged, setLogged] = useState(null);
     const [authName, setAuthName] = useState(null);
+    const [list, setList] = useState(null);
+    const [response, setResponse] = useState();
+
+    // useEffect(() => {
+    //     if (null !== response) {
+    //         setMessage({
+    //             text: response.message.text,
+    //             type: response.message.type,
+    //         });
+    //     }
+    // }, [response, setMessage]);
+
+    const after = (response) => {
+        setResponse(response);
+        getGoods();
+    }
+
+    const getGoods = () => {
+        axios.get('http://localhost:3003/goods', { withCredentials: true })
+            .then(res => setList(res.data));
+    };
 
     useEffect(() => {
-        setUpdate(Date.now());
-        if (null !== response) {
-            setMessage({
-                text: response.message.text,
-                type: response.message.type,
-            });
-        }
-    }, [response, setMessage, setUpdate, setCreate]);
+        getGoods();
+    }, []);
+
+    const createGood = (create) => {
+        axios.post('http://localhost:3003/goods', create, { withCredentials: true })
+            .then(after);
+    }
+
+    const deleteGood = (id) => {
+        axios.delete('http://localhost:3003/goods/' + id, { withCredentials: true })
+            .then(after);
+    };
+
+    const editGood = (good) => {
+        axios.put('http://localhost:3003/goods/' + good.id, good, { withCredentials: true })
+            .then(after);
+    };
 
     const logOut = (_) => {
-        axios
-            .post('http://localhost:3003/logout', {}, { withCredentials: true })
+        axios.post('http://localhost:3003/logout', {}, { withCredentials: true })
             .then((_) => {
                 setAuthName(false);
                 setLogged(2);
@@ -63,16 +87,16 @@ export const GlobalProvider = ({ children }) => {
     return (
         <Global.Provider
             value={{
-                setDelete,
-                setCreate,
                 list,
+                editGood,
+                deleteGood,
+                createGood,
                 deleteModal,
                 setDeleteModal,
                 addModal,
                 setAddModal,
                 remModal,
                 setRemModal,
-                setEdit,
                 messages,
                 route,
                 setRoute,

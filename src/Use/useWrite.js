@@ -10,13 +10,13 @@ export const useWrite = _ => {
     const [destroy, setDelete] = useState(null);
     const [edit, setEdit] = useState(null);
 
-    // useEffect(() => {
-    //     if (null === edit) {
-    //         return;
-    //     }
-    //     axios.put(URL + '/' + edit.action + '/' + edit.id, { amount: edit.amount, blocked: edit.blocked })
-    //         .then(res => setResponse(res.data));
-    // }, [edit]);
+    useEffect(() => {
+        if (null === edit) {
+            return;
+        }
+        axios.put(URL + '/' + edit.id, { title: edit.title, weight: edit.weight, flammable: edit.flammable, perishable: edit.perishable })
+            .then(res => setResponse(res.data));
+    }, [edit]);
 
     useEffect(() => {
         if (null === create) {
@@ -36,5 +36,5 @@ export const useWrite = _ => {
 
     }, [destroy]);
 
-    return [response, setCreate, setEdit, setDelete];
+    return [destroy, response, setCreate, setEdit, setDelete];
 }

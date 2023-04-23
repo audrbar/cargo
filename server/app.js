@@ -42,6 +42,18 @@ app.get('/goods', (req, res) => {
     });
 });
 
+app.get('/goods/:id', (req, res) => {
+    const sql = `
+        SELECT id, title, weight, flammable, perishable
+        FROM goods
+        WHERE id = ?
+    `;
+    con.query(sql, (err, result) => {
+        if (err) throw err;
+        res.json(result);
+    });
+});
+
 app.post('/goods', (req, res) => {
     const sql = `
         INSERT INTO goods ( title, weight, flammable, perishable )
@@ -58,12 +70,12 @@ app.post('/goods', (req, res) => {
 app.delete('/goods/:id', (req, res) => {
 
     const sql = `
-        SELECT id, amount, blocked
+        SELECT id
         FROM goods
         WHERE id = ?
     `;
 
-    con.query(sql, [req.params.id], (err, [account]) => {
+    con.query(sql, [req.params.id], (err) => {
         if (err) throw err;
         const sql = `
         DELETE FROM goods
