@@ -7,8 +7,8 @@ const CargosList = () => {
 
     return (
         <div className="row justify-content-center">
-            <div className="col-10">
-                <div className="card mt-5">
+            <div className="col-10 mt-5">
+                <div className="card shadow mt-3">
                     <p className="card-header text-center">Active Cargos List</p>
                     {list?.length ? (
                         list?.map((good) => (

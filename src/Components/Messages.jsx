@@ -8,8 +8,8 @@ function Messages() {
     return (
         <div>
             <div className="container">
-                <div className="row position-relative">
-                    {messages?.map(m => (<div key={m.id} class="alert alert-success position-absolute top-0 start-0 text-center w-100" role="alert">{m.text}</div>))}
+                <div className="row position-relative mt-1">
+                    {messages?.map(m => (<div key={m.id} class="alert alert-success position-absolute top-0 start-0 shadow-sm text-center w-100" role="alert">{m.text}</div>))}
                 </div>
             </div>
         </div>

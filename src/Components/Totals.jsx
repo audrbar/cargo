@@ -5,7 +5,7 @@ const Totals = () => {
     const { list } = useContext(Global);
 
     return (
-        <div className="card mt-5">
+        <div className="card shadow mt-5">
             <p className="card-header">Cargos Totals:</p>
             <ul className="list-group-item">
                 <li className="list-group-item m-2">

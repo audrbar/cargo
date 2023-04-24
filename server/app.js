@@ -150,7 +150,6 @@ app.post('/logout', (req, res) => {
 // ****************** Get, Update, Delete MANAGERS *****************
 // get all managers
 app.get('/managers', (req, res) => {
-    console.log(req);
     const sql = `SELECT id, name, role FROM users`;
     con.query(sql, (err, result) => {
         if (err) throw err;
