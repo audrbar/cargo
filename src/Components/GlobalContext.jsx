@@ -10,6 +10,7 @@ export const GlobalProvider = ({ children }) => {
     const [route, setRoute] = useState('home');
     const [logged, setLogged] = useState(null);
     const [authName, setAuthName] = useState(null);
+    const [authRole, setAuthRole] = useState(null);
     const [list, setList] = useState(null);
     const [managersList, setManagersList] = useState(null);
     const [response, setResponse] = useState();
@@ -87,10 +88,12 @@ export const GlobalProvider = ({ children }) => {
         axios
             .get('http://localhost:3003/login', { withCredentials: true })
             .then((res) => {
+                console.log(res);
                 if (res.data.status === 'ok') {
                     setRoute('home');
                     setLogged(true);
                     setAuthName(res.data.name);
+                    setAuthRole(res.data.role);
                 }
             });
     }, []);
@@ -98,7 +101,7 @@ export const GlobalProvider = ({ children }) => {
     useEffect(() => {
         setLogged(null);
     }, [route]);
-
+    console.log(authName, authRole);
     return (
         <Global.Provider
             value={{
@@ -116,6 +119,7 @@ export const GlobalProvider = ({ children }) => {
                 route,
                 setRoute,
                 authName,
+                authRole,
                 setAuthName,
                 logOut,
                 logged,

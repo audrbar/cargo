@@ -61,15 +61,30 @@ function Register() {
                         <div className="card-body">
                             <div className="mb-3">
                                 <label className="form-label">Name</label>
-                                <input type="text" className="form-control" value={name} onChange={e => setName(e.target.value)} />
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    value={name}
+                                    onChange={e => setName(e.target.value)}
+                                />
                             </div>
                             <div className="mb-3">
                                 <label className="form-label">Password</label>
-                                <input type="password" className="form-control" value={psw} onChange={e => setPsw(e.target.value)} />
+                                <input
+                                    type="password"
+                                    className="form-control"
+                                    value={psw}
+                                    onChange={e => setPsw(e.target.value)}
+                                />
                             </div>
                             <div className="mb-3">
                                 <label className="form-label">Password Repeat</label>
-                                <input type="password" className="form-control" value={psw2} onChange={e => setPsw2(e.target.value)} />
+                                <input
+                                    type="password"
+                                    className="form-control"
+                                    value={psw2}
+                                    onChange={e => setPsw2(e.target.value)}
+                                />
                             </div>
                             <button className="btn btn-outline-primary m-1" onClick={register}>Register</button>
                         </div>

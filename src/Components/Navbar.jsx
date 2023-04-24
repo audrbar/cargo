@@ -3,7 +3,7 @@ import { Global } from './GlobalContext';
 
 const Navbar = () => {
 
-    const { route, setRoute, authName, logOut } = useContext(Global);
+    const { route, setRoute, authName, authRole, logOut } = useContext(Global);
 
     return (
         <nav className="navbar navbar-expand-md navbar-light bg-light">
@@ -37,7 +37,7 @@ const Navbar = () => {
                                 ) : null
                         }
                         {
-                            authName ?
+                            authName && (authRole === 0) ?
                                 (
                                     <li className="nav-item">
                                         <span onClick={_ => setRoute('managers-list-page')} role="button" className={

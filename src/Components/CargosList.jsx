@@ -13,11 +13,11 @@ const CargosList = () => {
                     {list?.length ? (
                         list?.map((good) => (
                             <ul key={good.id} className="list-group-item">
-                                <li className="list-group-item mx-2 d-flex justify-content-between">
-                                    <div>
-                                        {good.title}{': '}{good.weight}{' kg, '}
-                                        {good.flammable ? 'flammable, ' : 'not flammable, '}
-                                        {good.perishable ? 'perishable; ' : 'not perishable; '}
+                                <li className="list-group-item mx-2 d-flex border-bottom justify-content-between">
+                                    <div className="d-flex align-items-center">
+                                        {good.title}{': '}{good.weight}{' kg; '}
+                                        {good.flammable ? 'flammable; ' : ''}
+                                        {good.perishable ? 'perishable; ' : ''}
                                     </div>
                                     <div>
                                         <button type="button" className="btn btn-outline-primary m-1" onClick={() => setRoute({ path: 'cargo-edit-page', data: { id: good.id } })}>EDIT</button>

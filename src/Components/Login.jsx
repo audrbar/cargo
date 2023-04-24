@@ -59,6 +59,7 @@ function Login() {
                         onChange={(e) => setName(e.target.value)}
                     />
                     <input
+                        type="password"
                         className="form-control mt-3"
                         placeholder="Your Password..."
                         value={psw}

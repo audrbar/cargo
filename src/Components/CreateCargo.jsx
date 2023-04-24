@@ -63,12 +63,32 @@ const CreateCargo = () => {
                     value={perishable}
                     onChange={e => setPerishable(e.target.value)}
                 />
+                <div className="form-check">
+                    <input
+                        className="form-check-input"
+                        type="checkbox"
+                        value={flammable}
+                        onChange={e => setPerishable(e.target.value)}
+                        id="flexCheckDefault"
+                    />
+                    <label className="form-check-label" htmlFor="flexCheckDefault">Is flammable</label>
+                </div>
+                <div className="form-check">
+                    <input
+                        className="form-check-input"
+                        type="checkbox"
+                        value={perishable}
+                        id="flexCheckChecked"
+                        onChange={e => setPerishable(e.target.value)}
+                    />
+                    <label className="form-check-label" htmlFor="flexCheckChecked">Is perishable</label>
+                </div>
                 <div className="flex flex-row items-center justify-between">
                     <button
                         className="btn btn-outline-primary mt-2"
                         onClick={create}
                     >
-                        CREATE
+                        SUBMIT
                     </button>
                 </div>
             </div>

@@ -30,14 +30,14 @@ const ManagerEdit = ({ id }) => {
                         <p className="card-header text-center">Edit Manager's Data</p>
                         <div className="card-body">
                             <div className="mb-3">
-                                <label htmlfor="name" className="form-label">Name</label>
+                                <label htmlFor="name" className="form-label">Name</label>
                                 <input
                                     id="name"
                                     type="text"
                                     className="form-control"
                                     value={name} onChange={e => setName(e.target.value)}
                                 />
-                                <label htmlfor="role" className="form-label">Role</label>
+                                <label htmlFor="role" className="form-label">Role</label>
                                 <input
                                     className="form-control"
                                     type="number"

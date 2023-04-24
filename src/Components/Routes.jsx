@@ -3,6 +3,7 @@ import { Global } from "./GlobalContext";
 import Home from "../Pages/Home";
 import Login from "./Login";
 import Register from "./Register";
+import Auth from "./Auth";
 import CargosListPage from "../Pages/CargosListPage";
 import ManagersListPage from "../Pages/ManagersListPage";
 import CargoEditPage from "../Pages/CargoEditPage";
@@ -18,7 +19,7 @@ function Routes() {
     switch (path) {
         case 'home': return <Home />
         case 'cargos-list-page': return <CargosListPage />
-        case 'managers-list-page': return <ManagersListPage />
+        case 'managers-list-page': return <Auth role={0} ><ManagersListPage /></Auth>
         case 'cargo-edit-page': return <CargoEditPage id={data.id} />
         case 'manager-edit-page': return <ManagerEditPage id={data.id} />
         case 'create-cargo-page': return <CreateCargoPage />

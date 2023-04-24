@@ -124,13 +124,14 @@ app.post('/login', (req, res) => {
 });
 // get logged user
 app.get('/login', (req, res) => {
-    const sql = `SELECT name FROM users WHERE session = ?`;
+    const sql = `SELECT name, role FROM users WHERE session = ?`;
     con.query(sql, [req.cookies.CargoSession || ''], (err, result) => {
         if (err) throw err;
         if (result.length) {
             res.json({
                 status: 'ok',
                 name: result[0].name,
+                role: result[0].role,
             });
         } else {
             res.json({
