@@ -3,7 +3,7 @@ import Footer from '../Components/Footer';
 import ManagerEdit from '../Components/ManagerEdit';
 import Navbar from '../Components/Navbar';
 
-const CargoEditPage = ({ id }) => {
+const ManagerEditPage = ({ id }) => {
     return (
         <>
             <Navbar />
@@ -13,4 +13,4 @@ const CargoEditPage = ({ id }) => {
     )
 }
 
-export default CargoEditPage;
+export default ManagerEditPage;

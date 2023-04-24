@@ -7,13 +7,11 @@ function Messages() {
 
     return (
         <div>
-            {
-                messages.map(m => (
-                    <div key={m.id} className="fixed inset-0 bg-gray-500 bg-opacity-75">
-                        <div className="fixed flex items-center justify-center inset-1/4 bg-white bg-opacity-75 text-center text-gray-500 text-xl rounded-lg shadow-xl p-6 md:inset-1/3" role="alert">{m.text}</div>
-                    </div>
-                ))
-            }
+            <div className="container">
+                <div className="row position-relative">
+                    {messages?.map(m => (<div key={m.id} class="alert alert-success position-absolute top-0 start-0 text-center w-100" role="alert">{m.text}</div>))}
+                </div>
+            </div>
         </div>
     )
 }

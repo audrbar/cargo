@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { Global } from "./GlobalContext";
-import Home from "./Home";
+import Home from "../Pages/Home";
 import Login from "./Login";
 import Register from "./Register";
 import CargosListPage from "../Pages/CargosListPage";

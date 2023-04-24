@@ -1,41 +1,30 @@
 import { createContext, useEffect, useState } from 'react';
-import { useMessages } from '../Use/useMessages';
-import { useModal } from '../Use/useModal';
+import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 
 export const Global = createContext();
 
 export const GlobalProvider = ({ children }) => {
-    const [
-        deleteModal,
-        setDeleteModal,
-        addModal,
-        setAddModal,
-        remModal,
-        setRemModal,
-    ] = useModal();
-    const [messages, setMessage] = useMessages([]);
+
+    const [messages, setMessages] = useState([]);
     const [route, setRoute] = useState('home');
     const [logged, setLogged] = useState(null);
     const [authName, setAuthName] = useState(null);
     const [list, setList] = useState(null);
     const [managersList, setManagersList] = useState(null);
     const [response, setResponse] = useState();
-
-    // useEffect(() => {
-    //     if (null !== response) {
-    //         setMessage({
-    //             text: response.message.text,
-    //             type: response.message.type,
-    //         });
-    //     }
-    // }, [response, setMessage]);
+    const uuid = uuidv4();
 
     const after = (response) => {
         setResponse(response);
         getGoods();
         getManagers();
+        setMessages(m => [...m, { ...response.data.message, id: uuid }]);
+        setTimeout(() => {
+            setMessages(m => m.filter(m => uuid !== m.id));
+        }, 40000);
     }
+
     // ******************* Get, Create, Update, Delete Goods **********************
     const getGoods = () => {
         axios.get('http://localhost:3003/goods', { withCredentials: true })
@@ -118,17 +107,12 @@ export const GlobalProvider = ({ children }) => {
                 deleteGood,
                 createGood,
                 managersList,
+                setManagersList,
                 getManagers,
                 editManager,
                 deleteManager,
-                setManagersList,
-                deleteModal,
-                setDeleteModal,
-                addModal,
-                setAddModal,
-                remModal,
-                setRemModal,
                 messages,
+                response,
                 route,
                 setRoute,
                 authName,

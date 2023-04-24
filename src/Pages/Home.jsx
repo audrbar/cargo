@@ -1,11 +1,11 @@
-import Footer from "./Footer";
-import Navbar from "./Navbar";
-import Totals from "./Totals";
+import Footer from "../Components/Footer";
+import Navbar from "../Components/Navbar";
+import Totals from "../Components/Totals";
 
 function Home() {
 
     return (
-        <div className="container">
+        <>
             <Navbar />
             <div className="row justify-content-center">
                 <div className="col-10 text-center">
@@ -19,7 +19,7 @@ function Home() {
                 </div>
             </div>
             <Footer />
-        </div>
+        </>
     )
 }
 
