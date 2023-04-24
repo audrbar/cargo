@@ -19,6 +19,7 @@ export const GlobalProvider = ({ children }) => {
     const [logged, setLogged] = useState(null);
     const [authName, setAuthName] = useState(null);
     const [list, setList] = useState(null);
+    const [managersList, setManagersList] = useState(null);
     const [response, setResponse] = useState();
 
     // useEffect(() => {
@@ -33,8 +34,9 @@ export const GlobalProvider = ({ children }) => {
     const after = (response) => {
         setResponse(response);
         getGoods();
+        getManagers();
     }
-
+    // ******************* Get, Create, Update, Delete Goods **********************
     const getGoods = () => {
         axios.get('http://localhost:3003/goods', { withCredentials: true })
             .then(res => setList(res.data));
@@ -55,9 +57,33 @@ export const GlobalProvider = ({ children }) => {
     };
 
     const editGood = (good) => {
+        console.log(good);
         axios.put('http://localhost:3003/goods/' + good.id, good, { withCredentials: true })
             .then(after);
     };
+
+    // ******************* Get, Create, Update, Delete MANAGERS **********************
+
+    const getManagers = () => {
+        axios.get('http://localhost:3003/managers', { withCredentials: true })
+            .then(res => setManagersList(res.data));
+    };
+
+    const editManager = (manager) => {
+        axios.put('http://localhost:3003/manager/' + manager.id, manager, { withCredentials: true })
+            .then(after);
+    };
+
+    useEffect(() => {
+        getManagers();
+    }, []);
+
+    const deleteManager = (id) => {
+        axios.delete('http://localhost:3003/manager/' + id, { withCredentials: true })
+            .then(after);
+    };
+
+    // ******************* Get Loged User, Logout User **********************
 
     const logOut = (_) => {
         axios.post('http://localhost:3003/logout', {}, { withCredentials: true })
@@ -73,7 +99,7 @@ export const GlobalProvider = ({ children }) => {
             .get('http://localhost:3003/login', { withCredentials: true })
             .then((res) => {
                 if (res.data.status === 'ok') {
-                    setRoute('cargos-list-page');
+                    setRoute('home');
                     setLogged(true);
                     setAuthName(res.data.name);
                 }
@@ -91,6 +117,11 @@ export const GlobalProvider = ({ children }) => {
                 editGood,
                 deleteGood,
                 createGood,
+                managersList,
+                getManagers,
+                editManager,
+                deleteManager,
+                setManagersList,
                 deleteModal,
                 setDeleteModal,
                 addModal,

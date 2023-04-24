@@ -5,9 +5,7 @@ const mysql = require('mysql');
 const { v4: uuidv4 } = require('uuid');
 const md5 = require('md5');
 
-const app = express();
-const port = 3003;
-
+// ****************** Create connection *****************
 const con = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -15,6 +13,18 @@ const con = mysql.createConnection({
     database: 'db4'
 });
 
+// ****************** Connect database *****************
+con.connect((err) => {
+    if (err) {
+        throw err;
+    }
+    console.log('MySql Connected ...');
+})
+
+const app = express();
+const port = 3003;
+
+// ****************** Use dependencies *****************
 app.use(cors({
     origin: 'http://localhost:3000',
     credentials: true
@@ -29,75 +39,62 @@ app.use(
 );
 app.use(express.json());
 
-// GOODS API GOODS API GOODS API GOODS API GOODS API GOODS API GOODS API
-
+// ****************** Get, Update, Delete GOODS *****************
+// get all goods
 app.get('/goods', (req, res) => {
-    const sql = `
-        SELECT id, title, weight, flammable, perishable
-        FROM goods
-    `;
+    const sql = `SELECT id, title, weight, flammable, perishable FROM goods`;
     con.query(sql, (err, result) => {
         if (err) throw err;
         res.json(result);
     });
 });
-
+// get one good by id
 app.get('/goods/:id', (req, res) => {
-    const sql = `
-        SELECT id, title, weight, flammable, perishable
-        FROM goods
-        WHERE id = ?
-    `;
+    const sql = `SELECT id, title, weight, flammable, perishable FROM goods WHERE id = ?`;
     con.query(sql, (err, result) => {
         if (err) throw err;
         res.json(result);
     });
 });
-
+// create a new good
 app.post('/goods', (req, res) => {
-    const sql = `
-        INSERT INTO goods ( title, weight, flammable, perishable )
-        VALUES (?, ?, ?, ?)
-    `;
+    const sql = `INSERT INTO goods (title, weight, flammable, perishable) VALUES (?, ?, ?, ?)`;
     con.query(sql, [req.body.title, req.body.weight, req.body.flammable, req.body.perishable], (err) => {
         if (err) throw err;
         res.json({
-            message: { text: 'New item was created.', 'type': 'success' }
+            message: { text: 'New cargo item was created.' }
         });
     });
 });
-
+// edit good by its id
+app.put('/goods/:id', (req, res) => {
+    let sql = `UPDATE goods SET title = ?, weight = ?, flammable = ?, perishable = ? WHERE id = ?`;
+    con.query(sql, [req.body.title, req.body.weight, req.body.flammable, req.body.perishable, req.params.id], (err, result) => {
+        if (err) throw err;
+        res.json({
+            message: { text: 'The cargo item was updated.' }
+        });
+    });
+});
+// delete good by its id
 app.delete('/goods/:id', (req, res) => {
-
-    const sql = `
-        SELECT id
-        FROM goods
-        WHERE id = ?
-    `;
-
+    const sql = `SELECT id FROM goods WHERE id = ?`;
     con.query(sql, [req.params.id], (err) => {
         if (err) throw err;
-        const sql = `
-        DELETE FROM goods
-        WHERE id = ?
-    `;
+        const sql = `DELETE FROM goods WHERE id = ?`;
         con.query(sql, [req.params.id], (err) => {
             if (err) throw err;
             res.json({
-                message: { text: 'The cargo item was deleted.', 'type': 'danger' }
+                message: { text: 'The cargo item was deleted.' }
             });
         });
     })
 });
 
-
-// Login Login Login Login Login Login Login Login Login Login Login Login Login Login
-
+// ****************** Get, Update, Delete USERS *****************
+// user register
 app.post('/register', (req, res) => {
-    const sql = `
-        INSERT INTO users (name, psw)
-        VALUES (?, ?)
-    `;
+    const sql = `INSERT INTO users (name, psw) VALUES (?, ?)`;
     const hashedPsw = md5(req.body.psw);
     con.query(sql, [req.body.name, hashedPsw], (err, result) => {
         if (err) throw err;
@@ -106,14 +103,10 @@ app.post('/register', (req, res) => {
         });
     });
 });
-
+// login user
 app.post('/login', (req, res) => {
     const sessionId = uuidv4();
-    const sql = `
-        UPDATE users
-        SET session = ?
-        WHERE name = ? AND psw = ?
-    `;
+    const sql = `UPDATE users SET session = ? WHERE name = ? AND psw = ?`;
     con.query(sql, [sessionId, req.body.name, md5(req.body.psw)], (err, result) => {
         if (err) throw err;
         if (result.affectedRows) {
@@ -129,20 +122,9 @@ app.post('/login', (req, res) => {
         }
     });
 });
-
-app.post('/logout', (req, res) => {
-    res.clearCookie('CargoSession');
-    res.json({
-        status: 'logout',
-    });
-});
-
+// get logged user
 app.get('/login', (req, res) => {
-    const sql = `
-        SELECT name
-        FROM users
-        WHERE session = ?
-    `;
+    const sql = `SELECT name FROM users WHERE session = ?`;
     con.query(sql, [req.cookies.CargoSession || ''], (err, result) => {
         if (err) throw err;
         if (result.length) {
@@ -157,7 +139,51 @@ app.get('/login', (req, res) => {
         }
     });
 });
+// logout user
+app.post('/logout', (req, res) => {
+    res.clearCookie('CargoSession');
+    res.json({
+        status: 'logout',
+    });
+});
 
+// ****************** Get, Update, Delete MANAGERS *****************
+// get all managers
+app.get('/managers', (req, res) => {
+    console.log(req);
+    const sql = `SELECT id, name, role FROM users`;
+    con.query(sql, (err, result) => {
+        if (err) throw err;
+        res.json(result);
+    });
+});
+
+// edit manager
+app.put('/manager/:id', (req, res) => {
+    let sql = `UPDATE users SET name = ?, role = ? WHERE id = ?`;
+    con.query(sql, [req.body.name, req.body.role, req.params.id], (err, result) => {
+        if (err) throw err;
+        res.json({
+            message: { text: 'The manager data was updated.' }
+        });
+    });
+});
+// delete manager
+app.delete('/manager/:id', (req, res) => {
+    const sql = `SELECT id FROM users WHERE id = ?`;
+    con.query(sql, [req.params.id], (err) => {
+        if (err) throw err;
+        const sql = `DELETE FROM users WHERE id = ?`;
+        con.query(sql, [req.params.id], (err) => {
+            if (err) throw err;
+            res.json({
+                message: { text: 'The manager was deleted.' }
+            });
+        });
+    })
+});
+
+// ****************** App Listen On Port *****************
 app.listen(port, () => {
     console.log(`LN is on port number: ${port}`);
 });

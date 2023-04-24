@@ -12,6 +12,7 @@ const CargoEdit = ({ id }) => {
     const edit = (e) => {
         e.preventDefault();
         editGood({
+            id: id,
             title,
             weight: parseInt(weight),
             flammable: parseInt(flammable),

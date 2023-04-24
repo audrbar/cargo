@@ -32,7 +32,17 @@ const Navbar = () => {
                                     <li className="nav-itemr">
                                         <span onClick={_ => setRoute('create-cargo-page')} role="button" className={
                                             'nav-link' + (route === 'create-cargo-page' ? ' active' : '')
-                                        }>Create Cargo</span>
+                                        }>NewCargo</span>
+                                    </li>
+                                ) : null
+                        }
+                        {
+                            authName ?
+                                (
+                                    <li className="nav-item">
+                                        <span onClick={_ => setRoute('managers-list-page')} role="button" className={
+                                            'nav-link' + (route === 'managers-list-page' ? ' active' : '')
+                                        }>Managers</span>
                                     </li>
                                 ) : null
                         }
