@@ -18,11 +18,11 @@ function Routes() {
 
     switch (path) {
         case 'home': return <Home />
-        case 'cargos-list-page': return <CargosListPage />
-        case 'managers-list-page': return <Auth role={0} ><ManagersListPage /></Auth>
+        case 'cargos-list-page': return <Auth role={[0, 1]}><CargosListPage /></Auth >
+        case 'managers-list-page': return <Auth role={[0, 1]}><ManagersListPage /></Auth>
         case 'cargo-edit-page': return <CargoEditPage id={data.id} />
         case 'manager-edit-page': return <ManagerEditPage id={data.id} />
-        case 'create-cargo-page': return <CreateCargoPage />
+        case 'create-cargo-page': return <Auth role={[0, 1]}><CreateCargoPage /></Auth >
         case 'login': return <Login />
         case 'register': return <Register />
         default: return null

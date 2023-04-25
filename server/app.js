@@ -113,7 +113,7 @@ app.post('/login', (req, res) => {
             res.cookie('CargoSession', sessionId);
             res.json({
                 status: 'ok',
-                name: req.body.name
+                name: req.body.name,
             });
         } else {
             res.json({

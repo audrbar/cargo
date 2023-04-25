@@ -1,5 +1,4 @@
 import { useState, useContext } from 'react';
-import axios from 'axios';
 import { Global } from './GlobalContext';
 
 function Login() {
@@ -8,24 +7,14 @@ function Login() {
     const [name, setName] = useState('');
     const [psw, setPsw] = useState('');
 
-    const { setLogged, setAuthName, setRoute } = useContext(Global);
+    const { login, setRoute } = useContext(Global);
 
-    const login = (e) => {
+    const handleLogin = (e) => {
         e.preventDefault();
-        axios.post(
-            'http://localhost:3003/login',
-            { name, psw },
-            { withCredentials: true }
-        )
+        login(name, psw)
             .then((res) => {
                 if (res.data.status === 'ok') {
-                    setUserName(res.data.name);
-                    setName('');
-                    setPsw('');
-                    setError(null);
-                    setRoute('home');
-                    setLogged(true);
-                    setAuthName(res.data.name);
+                    setUserName(res.data.name)
                 } else {
                     setError(true);
                     setUserName(null);
@@ -67,7 +56,7 @@ function Login() {
                     />
                     <button
                         className="btn btn-outline-primary mt-2"
-                        onClick={login}
+                        onClick={handleLogin}
                     >
                         Login
                     </button>

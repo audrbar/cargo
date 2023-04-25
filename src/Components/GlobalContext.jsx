@@ -10,7 +10,7 @@ export const GlobalProvider = ({ children }) => {
     const [route, setRoute] = useState('home');
     const [logged, setLogged] = useState(null);
     const [authName, setAuthName] = useState(null);
-    const [authRole, setAuthRole] = useState(null);
+    const [authRole, setAuthRole] = useState(3);
     const [list, setList] = useState(null);
     const [managersList, setManagersList] = useState(null);
     const [response, setResponse] = useState();
@@ -23,7 +23,7 @@ export const GlobalProvider = ({ children }) => {
         setMessages(m => [...m, { ...response.data.message, id: uuid }]);
         setTimeout(() => {
             setMessages(m => m.filter(m => uuid !== m.id));
-        }, 40000);
+        }, 4000);
     }
 
     // ******************* Get, Create, Update, Delete Goods **********************
@@ -47,7 +47,6 @@ export const GlobalProvider = ({ children }) => {
     };
 
     const editGood = (good) => {
-        console.log(good);
         axios.put('http://localhost:3003/goods/' + good.id, good, { withCredentials: true })
             .then(after);
     };
@@ -73,7 +72,30 @@ export const GlobalProvider = ({ children }) => {
             .then(after);
     };
 
-    // ******************* Get Loged User, Logout User **********************
+    // ******************* Post, Get Loged User, Logout User **********************
+    // getting loged user
+    const getUser = () => {
+        axios
+            .get('http://localhost:3003/login', { withCredentials: true })
+            .then((res) => {
+                if (res.data.status === 'ok') {
+                    setRoute('home');
+                    setLogged(true);
+                    setAuthName(res.data.name);
+                    setAuthRole(res.data.role);
+                } else {
+                    setLogged(false);
+                }
+            });
+    }
+
+    const login = (name, psw) => {
+        return axios.post('http://localhost:3003/login', { name, psw }, { withCredentials: true })
+            .then((res) => {
+                getUser();
+                return res;
+            })
+    };
 
     const logOut = (_) => {
         axios.post('http://localhost:3003/logout', {}, { withCredentials: true })
@@ -85,23 +107,9 @@ export const GlobalProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        axios
-            .get('http://localhost:3003/login', { withCredentials: true })
-            .then((res) => {
-                console.log(res);
-                if (res.data.status === 'ok') {
-                    setRoute('home');
-                    setLogged(true);
-                    setAuthName(res.data.name);
-                    setAuthRole(res.data.role);
-                }
-            });
+        getUser();
     }, []);
 
-    useEffect(() => {
-        setLogged(null);
-    }, [route]);
-    console.log(authName, authRole);
     return (
         <Global.Provider
             value={{
@@ -118,12 +126,14 @@ export const GlobalProvider = ({ children }) => {
                 response,
                 route,
                 setRoute,
+                getUser,
                 authName,
                 authRole,
                 setAuthName,
                 logOut,
                 logged,
-                setLogged
+                setLogged,
+                login
             }}
         >
             {children}

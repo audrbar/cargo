@@ -2,23 +2,25 @@ import { useContext } from 'react';
 import Login from "./Login";
 import { Global } from './GlobalContext';
 import RoleError from './RoleError';
+import Loader from './Loader';
 
 function Auth({ children, role }) {
 
-    const { authRole } = useContext(Global);
+    const { logged, authRole } = useContext(Global);
 
-    if (null === authRole) {
+    if (null === logged) {
+        return <Loader />
+    }
+
+    if (false === logged) {
         return <Login />
     }
 
-    if (role === authRole) {
-        return (
-            <>
-                {children}
-            </>
-        )
+    if (role.includes(authRole)) {
+        return children
     }
-    if (role === authRole) {
+
+    if (role !== authRole) {
         return (
             <RoleError />
         )

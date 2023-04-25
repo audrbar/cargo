@@ -25,7 +25,7 @@ const ManagerEdit = ({ id }) => {
     return (
         <div className="container">
             <div className="row justify-content-center">
-                <div className="col-6">
+                <div className="col-10 col-md-7 col-lg-6 col-xl-5 col-xxl-5">
                     <div className="card mt-4">
                         <p className="card-header text-center">Edit Manager's Data</p>
                         <div className="card-body">
@@ -49,7 +49,10 @@ const ManagerEdit = ({ id }) => {
                                     onChange={e => setRole(e.target.value)}
                                 />
                             </div>
-                            <button className="btn btn-outline-primary m-1" onClick={edit}>Submit</button>
+                            <button className="btn btn-outline-primary m-1" onClick={edit}
+                            >
+                                SUBMIT
+                            </button>
                         </div>
                     </div>
                 </div>

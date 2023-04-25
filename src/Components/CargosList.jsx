@@ -7,7 +7,7 @@ const CargosList = () => {
 
     return (
         <div className="row justify-content-center">
-            <div className="col-10 mt-5">
+            <div className="col-10 col-md-9 col-lg-8 col-xl-7 col-xxl-6">
                 <div className="card shadow mt-3">
                     <p className="card-header text-center">Active Cargos List</p>
                     {list?.length ? (

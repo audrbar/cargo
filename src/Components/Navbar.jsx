@@ -8,7 +8,7 @@ const Navbar = () => {
     return (
         <nav className="navbar navbar-expand-md navbar-light bg-light">
             <div className="container-fluid col-10">
-                <div className="navbar-brand">CargoInt</div>
+                <div className="navbar-brand" onClick={_ => setRoute('home')} role="button">CargoInt</div>
                 <div className="nav-top">
                     <ul className="navbar-nav">
                         <li className="nav-item">
