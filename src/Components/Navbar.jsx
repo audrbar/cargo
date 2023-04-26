@@ -29,6 +29,16 @@ const Navbar = () => {
                         {
                             authName ?
                                 (
+                                    <li className="nav-item">
+                                        <span onClick={_ => setRoute('containers-list-page')} role="button" className={
+                                            'nav-link' + (route === 'containers-list-page' ? ' active' : '')
+                                        }>Containers</span>
+                                    </li>
+                                ) : null
+                        }
+                        {
+                            authName ?
+                                (
                                     <li className="nav-itemr">
                                         <span onClick={_ => setRoute('create-cargo-page')} role="button" className={
                                             'nav-link' + (route === 'create-cargo-page' ? ' active' : '')
@@ -37,7 +47,7 @@ const Navbar = () => {
                                 ) : null
                         }
                         {
-                            authName && (authRole === 0) ?
+                            authName && (authRole === 1) ?
                                 (
                                     <li className="nav-item">
                                         <span onClick={_ => setRoute('managers-list-page')} role="button" className={

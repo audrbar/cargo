@@ -12,6 +12,7 @@ export const GlobalProvider = ({ children }) => {
     const [authName, setAuthName] = useState(null);
     const [authRole, setAuthRole] = useState(3);
     const [list, setList] = useState(null);
+    const [listContainers, setListContainers] = useState(null);
     const [managersList, setManagersList] = useState(null);
     const [response, setResponse] = useState();
     const uuid = uuidv4();
@@ -48,6 +49,26 @@ export const GlobalProvider = ({ children }) => {
 
     const editGood = (good) => {
         axios.put('http://localhost:3003/goods/' + good.id, good, { withCredentials: true })
+            .then(after);
+    };
+
+    // **************** Get, Create, Update, Delete CONTAINERS AND GOODS *****************
+
+    const getContainers = () => {
+        axios.get('http://localhost:3003/containers', { withCredentials: true })
+            .then(res => setListContainers(res.data));
+    };
+
+    useEffect(() => {
+        getContainers();
+    }, []);
+
+    const editContainer = (id) => {
+
+    };
+
+    const deleteContainer = (cont_id) => {
+        axios.delete('http://localhost:3003/container/' + cont_id, { withCredentials: true })
             .then(after);
     };
 
@@ -114,6 +135,7 @@ export const GlobalProvider = ({ children }) => {
         <Global.Provider
             value={{
                 list,
+                listContainers,
                 editGood,
                 deleteGood,
                 createGood,
@@ -133,6 +155,8 @@ export const GlobalProvider = ({ children }) => {
                 logOut,
                 logged,
                 setLogged,
+                editContainer,
+                deleteContainer,
                 login
             }}
         >

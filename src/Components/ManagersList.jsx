@@ -21,7 +21,7 @@ const ManagersList = () => {
                                     <ul className="list-group list-group-flush">
                                         <li className="list-group-item"><span className="text-muted">Manager name: </span>{manager.name}</li>
                                         <li className="list-group-item"><span className="text-muted">Manager id: </span>{manager.id}</li>
-                                        <li className="list-group-item"><span className="text-muted">Manager role: </span>{manager.role ? 'user' : 'admin'}</li>
+                                        <li className="list-group-item"><span className="text-muted">Manager role: </span>{manager.role ? 'admin' : 'user'}</li>
                                     </ul>
                                     <div className="d-flex justify-content-end">
                                         <button type="button" className="btn btn-outline-danger shadow-sm m-1" onClick={() => deleteManager(manager.id)}>DELETE</button>

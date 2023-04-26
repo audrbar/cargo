@@ -39,6 +39,38 @@ app.use(
 );
 app.use(express.json());
 
+// ****************** Get, Update, Delete CONTAINERS *****************
+// get all CONTAINERS and GOODS
+app.get('/containers', (req, res) => {
+    const sql = `SELECT * FROM containers RIGHT JOIN goods ON containers.good_id = goods.id
+        ORDER BY containers.type ASC`;
+    con.query(sql, (err, result) => {
+        if (err) throw err;
+        res.json({ data: result });
+    });
+});
+// change CONTAINER type
+app.put('/container/:id', (req, res) => {
+    const sql = `UPDATE containers SET type = IF(type = 1, 0, 1) WHERE id = ?`;
+    const params = [req.params.id];
+    con.query(sql, params, (err) => {
+        if (err) throw err;
+        res.json({
+            msg: { text: 'Konteinerio statusas pakeistas.' }
+        });
+    });
+});
+// delete CONTAINER
+app.delete('/container:id', (req, res) => {
+    const sql = `DELETE FROM containers WHERE id = ?`;
+    con.query(sql, [req.params.id], (err) => {
+        if (err) throw err;
+        res.json({
+            msg: { text: 'Konteineris panaikintas.' }
+        });
+    });
+});
+
 // ****************** Get, Update, Delete GOODS *****************
 // get all goods
 app.get('/goods', (req, res) => {

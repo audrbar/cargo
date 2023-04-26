@@ -51,7 +51,7 @@ function Register() {
     return (
         <div className="container">
             <div className="row justify-content-center">
-                <div className="col-6">
+                <div className="col-10 col-md-7 col-lg-5 col-xl-4 col-xxl-4">
                     <div className="card mt-4">
                         <div className="card-header">
                             {

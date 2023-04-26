@@ -17,6 +17,14 @@ CREATE TABLE `users` (
   `role` tinyint(4) UNSIGNED NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+CREATE TABLE `users` (
+  `id` int PRIMARY KEY AUTO_INCREMENT,
+  `name` varchar(30) NOT NULL,
+  `psw` char(32) NOT NULL,
+  `session` char(36) DEFAULT NULL,
+  `role` tinyint(4) UNSIGNED NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 CREATE TABLE `containers` (
   `id` tinyint(3) UNSIGNED NOT NULL,
   `title` varchar(30) NOT NULL,
