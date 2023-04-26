@@ -10,7 +10,7 @@ const CargosList = () => {
     return (
         <div className="row justify-content-center">
             <div className="col-11 col-md-10 col-lg-9 col-xl-8 col-xxl-7">
-                <div className="card shadow mt-3">
+                <div className="card shadow mt-5">
                     <p className="card-header text-center">Available Containers List</p>
                     {filteredContainers?.length ? (
                         filteredContainers?.map((cont) => (
@@ -18,11 +18,13 @@ const CargosList = () => {
                                 <li className="list-group-item mx-2 d-flex border-bottom p-1">
                                     <div className="d-flex align-items-center justify-content-between">
                                         <div>
-                                            {cont.cont_title}
+                                            {cont.cont_title} {'     '}
+                                            {cont.type} {'     '}
+                                            {cont.cont_id}
                                         </div>
                                         <div>
                                             <button type="button" className="btn btn-outline-danger m-1" onClick={() => deleteContainer(cont.cont_id)}>DELETE</button>
-                                            <button type="button" className="btn btn-outline-primary m-1" onClick={() => setRoute({ path: 'container-edit-page', data: { id: cont.id } })}>EDIT</button>
+                                            <button type="button" className="btn btn-outline-primary m-1" onClick={() => setRoute({ path: 'containers-edit-page', data: { id: cont.cont_id } })}>EDIT</button>
                                         </div>
                                     </div>
                                 </li>

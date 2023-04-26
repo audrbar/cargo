@@ -1,15 +1,21 @@
 import { useContext, useState } from 'react';
 import { Global } from './GlobalContext';
 
-const CargoEdit = ({ id }) => {
+const ContainerEdit = ({ id }) => {
     const { listContainers, editContainer, setRoute } = useContext(Global);
-    const cargoItem = listContainers.find(good => (good.id) === id);
-    const [type, setType] = useState(cargoItem.type);
+    console.log(listContainers);
+    const filteredContainersList = listContainers.data.filter((acc) => acc.type !== null);
+    const containerItem = filteredContainersList.find(c => (c.cont_id) === id);
+    const [type, setType] = useState(containerItem.type);
+
+    console.log(filteredContainersList);
+
+
 
     const edit = (e) => {
         e.preventDefault();
         editContainer({
-            id: id,
+            cont_id: id,
             type: parseInt(type),
         });
         setType('');
@@ -22,12 +28,17 @@ const CargoEdit = ({ id }) => {
                 <div className="col-10 col-md-7 col-lg-6 col-xl-5 col-xxl-5">
                     <div className="card mt-4">
                         <div className="card-header text-center">Edit a container</div>
+                        {containerItem.cont_title}
+                        {containerItem.type}
                         <div className="card-body">
-                            <label htmlFor="title" className="form-label">Containers title</label>
+                            <label htmlFor="type" className="form-label">Container type</label>
                             <input
-                                id="title"
+                                id="type"
                                 className="form-control"
-                                type="text"
+                                name="type"
+                                type="number"
+                                min="0"
+                                max="3"
                                 value={type}
                                 onChange={(e) => setType(e.target.value)}
                             />
@@ -41,7 +52,7 @@ const CargoEdit = ({ id }) => {
                             </div>
                         </div>
                     </div>
-                    <p className="nav-item text-center cursor-pointer mt-4" role="button" onClick={_ => setRoute('cargos-list-page')}>
+                    <p className="nav-item text-center cursor-pointer mt-4" role="button" onClick={_ => setRoute('containers-list-page')}>
                         Back to Containers Page
                     </p>
                 </div>
@@ -50,4 +61,4 @@ const CargoEdit = ({ id }) => {
     );
 };
 
-export default CargoEdit;
+export default ContainerEdit;

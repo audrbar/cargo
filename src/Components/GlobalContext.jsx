@@ -20,6 +20,7 @@ export const GlobalProvider = ({ children }) => {
     const after = (response) => {
         setResponse(response);
         getGoods();
+        getContainers();
         getManagers();
         setMessages(m => [...m, { ...response.data.message, id: uuid }]);
         setTimeout(() => {
@@ -63,8 +64,9 @@ export const GlobalProvider = ({ children }) => {
         getContainers();
     }, []);
 
-    const editContainer = (id) => {
-
+    const editContainer = (container) => {
+        axios.put('http://localhost:3003/container/' + container.cont_id, container, { withCredentials: true })
+            .then(after);
     };
 
     const deleteContainer = (cont_id) => {

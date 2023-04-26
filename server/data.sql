@@ -1,5 +1,5 @@
 CREATE DATABASE db4;
-
+ALTER TABLE `containers` ADD CONSTRAINT `cont_rel` FOREIGN KEY (`cont_id`) REFERENCES `goods`(`container_id`) ON DELETE CASCADE ON UPDATE RESTRICT;
 CREATE TABLE `goods` (
   `id` int(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `title` varchar(100) NOT NULL,

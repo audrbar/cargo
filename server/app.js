@@ -42,7 +42,7 @@ app.use(express.json());
 // ****************** Get, Update, Delete CONTAINERS *****************
 // get all CONTAINERS and GOODS
 app.get('/containers', (req, res) => {
-    const sql = `SELECT * FROM containers RIGHT JOIN goods ON containers.good_id = goods.id
+    const sql = `SELECT * FROM goods LEFT JOIN containers ON containers.cont_id = goods.container_id
         ORDER BY containers.type ASC`;
     con.query(sql, (err, result) => {
         if (err) throw err;
@@ -51,22 +51,23 @@ app.get('/containers', (req, res) => {
 });
 // change CONTAINER type
 app.put('/container/:id', (req, res) => {
-    const sql = `UPDATE containers SET type = IF(type = 1, 0, 1) WHERE id = ?`;
-    const params = [req.params.id];
+    const sql = `UPDATE containers SET type = ? WHERE cont_id = ?`;
+    const params = [req.body.type, req.params.id];
     con.query(sql, params, (err) => {
         if (err) throw err;
         res.json({
-            msg: { text: 'Konteinerio statusas pakeistas.' }
+            msg: { text: 'The container type was changed.' }
         });
     });
 });
+
 // delete CONTAINER
-app.delete('/container:id', (req, res) => {
-    const sql = `DELETE FROM containers WHERE id = ?`;
-    con.query(sql, [req.params.id], (err) => {
+app.delete('/container/:cont_id', (req, res) => {
+    const sql = `DELETE FROM containers WHERE cont_id = ?`;
+    con.query(sql, [req.params.cont_id], (err) => {
         if (err) throw err;
         res.json({
-            msg: { text: 'Konteineris panaikintas.' }
+            msg: { text: 'The container was deleted.' }
         });
     });
 });
