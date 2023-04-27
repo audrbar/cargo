@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const mysql = require('mysql');
+const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 const md5 = require('md5');
 
@@ -23,6 +24,8 @@ con.connect((err) => {
 
 const app = express();
 const port = 3003;
+app.use(express.json({ limit: '10mb' }));
+app.use(express.static('public'));
 
 // ****************** Use dependencies *****************
 app.use(cors({
@@ -86,7 +89,7 @@ app.delete('/container/:cont_id', (req, res) => {
 // ****************** Get, Update, Delete GOODS *****************
 // get all goods
 app.get('/goods', (req, res) => {
-    const sql = `SELECT id, title, weight, flammable, container_id FROM goods`;
+    const sql = `SELECT id, title, weight, photo, flammable, container_id FROM goods ORDER BY title desc`;
     con.query(sql, (err, result) => {
         if (err) throw err;
         res.json(result);
@@ -94,7 +97,7 @@ app.get('/goods', (req, res) => {
 });
 // get one good by id
 app.get('/goods/:id', (req, res) => {
-    const sql = `SELECT id, title, weight, flammable FROM goods WHERE id = ?`;
+    const sql = `SELECT id, title, weight, photo, flammable FROM goods WHERE id = ?`;
     con.query(sql, (err, result) => {
         if (err) throw err;
         res.json(result);
@@ -102,8 +105,31 @@ app.get('/goods/:id', (req, res) => {
 });
 // create a new good
 app.post('/goods', (req, res) => {
-    const sql = `INSERT INTO goods (title, weight, flammable, container_id) VALUES (?, ?, ?, ?)`;
-    con.query(sql, [req.body.title, req.body.weight, req.body.flammable, req.body.container_id], (err) => {
+
+    let fileName = null;
+
+    if (req.body.file !== null) {
+
+        let type = 'unknown';
+        let file;
+
+        if (req.body.file.indexOf('data:image/png;base64,') === 0) {
+            type = 'png';
+            file = Buffer.from(req.body.file.replace('data:image/png;base64,', ''), 'base64');
+        } else if (req.body.file.indexOf('data:image/jpeg;base64,') === 0) {
+            type = 'jpg';
+            file = Buffer.from(req.body.file.replace('data:image/jpeg;base64,', ''), 'base64');
+        } else {
+            file = Buffer.from(req.body.file, 'base64');
+        }
+
+        fileName = uuidv4() + '.' + type;
+
+        fs.writeFileSync('./public/' + fileName, file);
+    }
+
+    const sql = `INSERT INTO goods (title, weight, photo, flammable, container_id) VALUES (?, ?, ?, ?, ?)`;
+    con.query(sql, [req.body.title, req.body.weight, fileName, req.body.flammable, req.body.container_id], (err) => {
         if (err) throw err;
         res.json({
             message: { text: 'New cargo item was created.' }
@@ -112,12 +138,42 @@ app.post('/goods', (req, res) => {
 });
 // edit good by its id
 app.put('/goods/:id', (req, res) => {
-    let sql = `UPDATE goods SET title = ?, weight = ?, flammable = ? WHERE id = ?`;
+    let fileName = null;
 
-    // console.log('req.params: ', req.params);
-    // console.log('req.body: ', req.body);
-
-    con.query(sql, [req.body.title, req.body.weight, req.body.flammable, req.params.id], (err, result) => {
+    if (req.body.delImg) {
+        let sql = `SELECT photo FROM goods WHERE id = ?`;
+        con.query(sql, [req.params.id], (err, result) => {
+            if (err) throw err;
+            if (result[0].photo) {
+                fs.unlinkSync('./public/' + result[0].photo);
+            }
+        });
+    }
+    if (req.body.file) {
+        let type = 'unknown';
+        let file;
+        if (req.body.file.indexOf('data:image/png;base64,') === 0) {
+            type = 'png';
+            file = Buffer.from(req.body.file.replace('data:image/png;base64,', ''), 'base64');
+        } else if (req.body.file.indexOf('data:image/jpeg;base64,') === 0) {
+            type = 'jpg';
+            file = Buffer.from(req.body.file.replace('data:image/jpeg;base64,', ''), 'base64');
+        } else {
+            file = Buffer.from(req.body.file, 'base64');
+        }
+        fileName = uuidv4() + '.' + type;
+        fs.writeFileSync('./public/' + fileName, file);
+    }
+    let sql;
+    let params;
+    if (!req.body.delImg && req.body.file) {
+        sql = `UPDATE goods SET title = ?, weight = ?, photo = ?, flammable = ? WHERE id = ?`;
+        params = [req.body.title, req.body.weight, fileName, req.body.flammable, req.params.id];
+    } else {
+        sql = `UPDATE goods SET title = ?, weight = ?, flammable = ? WHERE id = ?`;
+        params = [req.body.title, req.body.weight, req.body.flammable, req.params.id];
+    }
+    con.query(sql, params, (err) => {
         if (err) throw err;
         res.json({
             message: { text: 'The cargo item was updated.' }
@@ -128,8 +184,8 @@ app.put('/goods/:id', (req, res) => {
 app.put('/loadgood/:id', (req, res) => {
     let sql = `UPDATE goods SET container_id = ? WHERE goods.id = ?`;
 
-    console.log('req.body: ', req.body);
-    console.log('req.params: ', req.params);
+    // console.log('req.body: ', req.body);
+    // console.log('req.params: ', req.params);
 
     con.query(sql, [req.body.container_id, req.params.id], (err, result) => {
         if (err) throw err;
@@ -138,19 +194,23 @@ app.put('/loadgood/:id', (req, res) => {
         });
     });
 });
-// delete good by its id
+// delete good
 app.delete('/goods/:id', (req, res) => {
-    const sql = `SELECT id FROM goods WHERE id = ?`;
+    let sql = `SELECT id, photo FROM goods WHERE id = ?`;
+    con.query(sql, [req.params.id], (err, result) => {
+        if (err) throw err;
+        if (result[0].photo) {
+            fs.unlinkSync('./public/' + result[0].photo)
+        };
+    });
+
+    sql = `DELETE FROM goods WHERE id = ?`;
     con.query(sql, [req.params.id], (err) => {
         if (err) throw err;
-        const sql = `DELETE FROM goods WHERE id = ?`;
-        con.query(sql, [req.params.id], (err) => {
-            if (err) throw err;
-            res.json({
-                message: { text: 'The cargo item was deleted.' }
-            });
+        res.json({
+            message: { text: 'The cargo item was deleted.' }
         });
-    })
+    });
 });
 
 // ****************** Get, Update, Delete USERS *****************

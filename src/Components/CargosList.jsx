@@ -1,6 +1,8 @@
 import { useContext } from 'react';
 import { Global } from './GlobalContext';
 
+const IMG = 'http://localhost:3003/';
+
 const CargosList = () => {
     const { list, deleteGood, setRoute } =
         useContext(Global);
@@ -21,6 +23,13 @@ const CargosList = () => {
                         list?.map((good) => (
                             <ul key={good.id} className="list-group-item">
                                 <li className="list-group-item mx-2 d-flex border-bottom justify-content-between p-1">
+                                    <div className="d-flex align-items-start w-25 justify-content-center">
+                                        {
+                                            good.photo
+                                                ? <img className="list-image w-50" alt="" src={IMG + good.photo} />
+                                                : <img className="list-image w-50" alt="" src={IMG + 'picture.png'} />
+                                        }
+                                    </div>
                                     <div className="d-flex flex-column align-items-start justify-content-center">
                                         <h4>{good.title}</h4>
                                         <p>{good.weight}{' kg '}</p>

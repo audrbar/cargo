@@ -2,11 +2,12 @@ import { useContext, useState } from 'react';
 import { Global } from './GlobalContext';
 
 const CreateCargo = () => {
+    const { createGood, contList, setRoute } = useContext(Global);
     const [title, setTitle] = useState('');
     const [weight, setWeight] = useState(0);
     const [containerId, setContainerId] = useState(0);
     const [flammable, setFlammable] = useState(0);
-    const { createGood, contList, setRoute } = useContext(Global);
+    const [file, setFile] = useState();
 
     const create = (e) => {
         e.preventDefault();
@@ -15,12 +16,27 @@ const CreateCargo = () => {
             weight: parseInt(weight),
             flammable: parseInt(flammable),
             container_id: containerId,
+            file
         });
-        setTitle('');
-        setWeight(0);
-        setFlammable(0);
         setRoute('cargos-list-page');
     };
+
+    const fileReader = file => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = _ => resolve(reader.result);
+            reader.onerror = error => reject(error);
+        });
+    }
+
+    const readFile = e => {
+        fileReader(e.target.files[0])
+            .then(f => setFile(f))
+            .catch(_ => {
+                //error
+            })
+    }
 
     return (
         <div className="container">
@@ -54,6 +70,13 @@ const CreateCargo = () => {
                                 max="1"
                                 value={flammable}
                                 onChange={e => setFlammable(e.target.value)}
+                            />
+                            <label htmlFor="formFileSm" className="form-label mt-1">Cargo image</label>
+                            <input
+                                className="form-control form-control-sm"
+                                id="formFileSm"
+                                type="file"
+                                onChange={readFile}
                             />
                             <p className="form-label mt-1">Choose your container:
                                 <select

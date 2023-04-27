@@ -10,7 +10,7 @@ const CargosList = () => {
             <div className="row">
                 <button
                     type="button"
-                    class="btn btn-outline-secondary w-25 mt-2 mx-2"
+                    className="btn btn-outline-secondary w-25 mt-2 mx-2"
                     onClick={_ => setRoute('create-container-page')}
                 >
                     New Container
