@@ -40,19 +40,30 @@ app.use(
 app.use(express.json());
 
 // ****************** Get, Update, Delete CONTAINERS *****************
-// get all CONTAINERS and GOODS
+// get all CONTAINERS
 app.get('/containers', (req, res) => {
-    const sql = `SELECT * FROM goods LEFT JOIN containers ON containers.cont_id = goods.container_id
-        ORDER BY containers.type ASC`;
+    const sql = ` SELECT cont_id, cont_title, cont_type FROM containers`;
     con.query(sql, (err, result) => {
         if (err) throw err;
         res.json({ data: result });
     });
 });
+
+// create a new CONTAINER
+app.post('/containers', (req, res) => {
+    const sql = `INSERT INTO containers (cont_title, cont_type) VALUES (?, ?)`;
+    con.query(sql, [req.body.cont_title, req.body.cont_type], (err) => {
+        if (err) throw err;
+        res.json({
+            message: { text: 'New container was created.' }
+        });
+    });
+});
+
 // change CONTAINER type
 app.put('/container/:id', (req, res) => {
-    const sql = `UPDATE containers SET type = ? WHERE cont_id = ?`;
-    const params = [req.body.type, req.params.id];
+    const sql = `UPDATE containers SET cont_type = ? WHERE cont_id = ?`;
+    const params = [req.body.cont_type, req.params.id];
     con.query(sql, params, (err) => {
         if (err) throw err;
         res.json({
@@ -75,7 +86,7 @@ app.delete('/container/:cont_id', (req, res) => {
 // ****************** Get, Update, Delete GOODS *****************
 // get all goods
 app.get('/goods', (req, res) => {
-    const sql = `SELECT id, title, weight, flammable, perishable FROM goods`;
+    const sql = `SELECT id, title, weight, flammable, container_id FROM goods`;
     con.query(sql, (err, result) => {
         if (err) throw err;
         res.json(result);
@@ -83,7 +94,7 @@ app.get('/goods', (req, res) => {
 });
 // get one good by id
 app.get('/goods/:id', (req, res) => {
-    const sql = `SELECT id, title, weight, flammable, perishable FROM goods WHERE id = ?`;
+    const sql = `SELECT id, title, weight, flammable FROM goods WHERE id = ?`;
     con.query(sql, (err, result) => {
         if (err) throw err;
         res.json(result);
@@ -91,8 +102,8 @@ app.get('/goods/:id', (req, res) => {
 });
 // create a new good
 app.post('/goods', (req, res) => {
-    const sql = `INSERT INTO goods (title, weight, flammable, perishable) VALUES (?, ?, ?, ?)`;
-    con.query(sql, [req.body.title, req.body.weight, req.body.flammable, req.body.perishable], (err) => {
+    const sql = `INSERT INTO goods (title, weight, flammable, container_id) VALUES (?, ?, ?, ?)`;
+    con.query(sql, [req.body.title, req.body.weight, req.body.flammable, req.body.container_id], (err) => {
         if (err) throw err;
         res.json({
             message: { text: 'New cargo item was created.' }
@@ -101,11 +112,29 @@ app.post('/goods', (req, res) => {
 });
 // edit good by its id
 app.put('/goods/:id', (req, res) => {
-    let sql = `UPDATE goods SET title = ?, weight = ?, flammable = ?, perishable = ? WHERE id = ?`;
-    con.query(sql, [req.body.title, req.body.weight, req.body.flammable, req.body.perishable, req.params.id], (err, result) => {
+    let sql = `UPDATE goods SET title = ?, weight = ?, flammable = ? WHERE id = ?`;
+
+    // console.log('req.params: ', req.params);
+    // console.log('req.body: ', req.body);
+
+    con.query(sql, [req.body.title, req.body.weight, req.body.flammable, req.params.id], (err, result) => {
         if (err) throw err;
         res.json({
             message: { text: 'The cargo item was updated.' }
+        });
+    });
+});
+// load good on cont
+app.put('/loadgood/:id', (req, res) => {
+    let sql = `UPDATE goods SET container_id = ? WHERE goods.id = ?`;
+
+    console.log('req.body: ', req.body);
+    console.log('req.params: ', req.params);
+
+    con.query(sql, [req.body.container_id, req.params.id], (err, result) => {
+        if (err) throw err;
+        res.json({
+            message: { text: 'The cargo was loaded.' }
         });
     });
 });

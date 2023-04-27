@@ -4,9 +4,9 @@ import { Global } from './GlobalContext';
 const CreateCargo = () => {
     const [title, setTitle] = useState('');
     const [weight, setWeight] = useState(0);
+    const [containerId, setContainerId] = useState(0);
     const [flammable, setFlammable] = useState(0);
-    const [perishable, setPerishable] = useState(0);
-    const { createGood, setRoute } = useContext(Global);
+    const { createGood, contList, setRoute } = useContext(Global);
 
     const create = (e) => {
         e.preventDefault();
@@ -14,12 +14,11 @@ const CreateCargo = () => {
             title,
             weight: parseInt(weight),
             flammable: parseInt(flammable),
-            perishable: parseInt(perishable),
+            container_id: containerId,
         });
         setTitle('');
         setWeight(0);
         setFlammable(0);
-        setPerishable(0);
         setRoute('cargos-list-page');
     };
 
@@ -56,36 +55,29 @@ const CreateCargo = () => {
                                 value={flammable}
                                 onChange={e => setFlammable(e.target.value)}
                             />
-                            <label className="form-label">Is perishable</label>
-                            <input
-                                className="form-control"
-                                type="number"
-                                name="amount"
-                                min="0"
-                                max="1"
-                                value={perishable}
-                                onChange={e => setPerishable(e.target.value)}
-                            />
-                            <div className="form-check">
-                                <input
-                                    className="form-check-input"
-                                    type="checkbox"
-                                    value={flammable}
-                                    onChange={e => setPerishable(e.target.value)}
-                                    id="flexCheckDefault"
-                                />
-                                <label className="form-check-label" htmlFor="flexCheckDefault">Is flammable</label>
-                            </div>
-                            <div className="form-check">
-                                <input
-                                    className="form-check-input"
-                                    type="checkbox"
-                                    value={perishable}
-                                    id="flexCheckChecked"
-                                    onChange={e => setPerishable(e.target.value)}
-                                />
-                                <label className="form-check-label" htmlFor="flexCheckChecked">Is perishable</label>
-                            </div>
+                            <p className="form-label mt-1">Choose your container:
+                                <select
+                                    className="form-select my-1"
+                                    aria-label="Default select example"
+                                    name="category list"
+                                    value={containerId}
+                                    onChange={(e) => { setContainerId(e.target.value) }}
+                                >
+                                    {
+                                        contList?.data?.length ?
+                                            contList?.data?.map((cont) => (
+                                                <option
+                                                    key={cont.cont_id}
+                                                    value={cont.cont_id}
+                                                >
+                                                    {cont.cont_title}
+                                                </option>
+                                            )
+                                            ) : null
+
+                                    }
+                                </select>
+                            </p>
                             <div className="flex flex-row items-center justify-between">
                                 <button
                                     className="btn btn-outline-primary mt-2"

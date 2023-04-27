@@ -7,7 +7,6 @@ const CargoEdit = ({ id }) => {
     const [title, setTitle] = useState(cargoItem.title);
     const [weight, setWeight] = useState(cargoItem.weight);
     const [flammable, setFlammable] = useState(cargoItem.flammable);
-    const [perishable, setPerishable] = useState(cargoItem.perishable);
 
     const edit = (e) => {
         e.preventDefault();
@@ -16,12 +15,10 @@ const CargoEdit = ({ id }) => {
             title,
             weight: parseInt(weight),
             flammable: parseInt(flammable),
-            perishable: parseInt(perishable),
         });
         setTitle('');
         setWeight(0);
         setFlammable(0);
-        setPerishable(0);
         setRoute('cargos-list-page');
     };
 
@@ -60,17 +57,6 @@ const CargoEdit = ({ id }) => {
                                 max="1"
                                 value={flammable}
                                 onChange={e => setFlammable(e.target.value)}
-                            />
-                            <label htmlFor="perishable" className="form-label">Is perishable</label>
-                            <input
-                                id="perishable"
-                                className="form-control"
-                                type="number"
-                                name="perishable"
-                                min="0"
-                                max="1"
-                                value={perishable}
-                                onChange={e => setPerishable(e.target.value)}
                             />
                             <div className="flex flex-row items-center justify-between">
                                 <button

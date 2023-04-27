@@ -37,16 +37,6 @@ const Navbar = () => {
                                 ) : null
                         }
                         {
-                            authName ?
-                                (
-                                    <li className="nav-itemr">
-                                        <span onClick={_ => setRoute('create-cargo-page')} role="button" className={
-                                            'nav-link' + (route === 'create-cargo-page' ? ' active' : '')
-                                        }>NewCargo</span>
-                                    </li>
-                                ) : null
-                        }
-                        {
                             authName && (authRole === 1) ?
                                 (
                                     <li className="nav-item">

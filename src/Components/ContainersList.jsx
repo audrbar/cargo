@@ -2,38 +2,44 @@ import { useContext } from 'react';
 import { Global } from './GlobalContext';
 
 const CargosList = () => {
-    const { listContainers, deleteContainer, setRoute } =
+    const { contList, deleteContainer, setRoute } =
         useContext(Global);
 
-    const filteredContainers = listContainers?.data?.filter((acc) => acc.cont_title !== null);
-
     return (
-        <div className="row justify-content-center">
-            <div className="col-11 col-md-10 col-lg-9 col-xl-8 col-xxl-7">
-                <div className="card shadow mt-5">
-                    <p className="card-header text-center">Available Containers List</p>
-                    {filteredContainers?.length ? (
-                        filteredContainers?.map((cont) => (
-                            <ul key={cont.cont_id} className="list-group-item">
-                                <li className="list-group-item mx-2 d-flex border-bottom p-1">
-                                    <div className="d-flex align-items-center justify-content-between">
-                                        <div>
-                                            {cont.cont_title} {'     '}
-                                            {cont.type} {'     '}
-                                            {cont.cont_id}
-                                        </div>
-                                        <div>
-                                            <button type="button" className="btn btn-outline-danger m-1" onClick={() => deleteContainer(cont.cont_id)}>DELETE</button>
-                                            <button type="button" className="btn btn-outline-primary m-1" onClick={() => setRoute({ path: 'containers-edit-page', data: { id: cont.cont_id } })}>EDIT</button>
-                                        </div>
+        <div className="container">
+            <div className="row">
+                <button
+                    type="button"
+                    class="btn btn-outline-secondary w-25 mt-2 mx-2"
+                    onClick={_ => setRoute('create-container-page')}
+                >
+                    New Container
+                </button>
+                <h5 className="text-center py-3">Available Containers List</h5>
+                {contList?.data.length ? (
+                    contList?.data.map((cont) => (
+                        <div key={cont.cont_id} className="col-sm-6 col-lg-4 col-xxl-3">
+                            <div className="card shadow mb-4">
+                                <div className="card-header">
+                                    Container Features
+                                </div>
+                                <div className="card-body">
+                                    <ul className="list-group list-group-flush">
+                                        <h4><span className="text-muted">name: </span>{cont.cont_title}</h4>
+                                        <p><span className="text-muted">id: </span>{cont.cont_id}</p>
+                                        <p><span className="text-muted">type: </span>{cont.cont_type === 1 ? 'Aircraft container' : cont.cont_type === 2 ? 'Truck container' : 'Ship container'}</p>
+                                    </ul>
+                                    <div>
+                                        <button type="button" className="btn btn-outline-danger m-1" onClick={() => deleteContainer(cont.cont_id)}>DELETE</button>
+                                        <button type="button" className="btn btn-outline-primary m-1" onClick={() => setRoute({ path: 'container-edit-page', data: { id: cont.cont_id } })}>EDIT</button>
                                     </div>
-                                </li>
-                            </ul>
-                        ))
-                    ) : (
-                        <h2>Nothing to show!</h2>
-                    )}
-                </div>
+                                </div>
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <h2>Nothing to show!</h2>
+                )}
             </div>
         </div>
     );

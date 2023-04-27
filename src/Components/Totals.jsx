@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { Global } from './GlobalContext';
 
 const Totals = () => {
-    const { list, listContainers } = useContext(Global);
+    const { list, contList } = useContext(Global);
     return (
         <div className="container">
             <div className="row justify-content-center">
@@ -12,8 +12,7 @@ const Totals = () => {
                         <div className="card-body">
                             <ul className="list-group list-group-flush">
                                 <li className="list-group-item"><span className="text-muted">Cargos Total: </span>
-                                    {/* {list === null ? null : list.length} */}
-                                    {listContainers === null ? null : listContainers.data.length}
+                                    {list === null ? null : list.length}
                                 </li>
                                 <li className="list-group-item"><span className="text-muted">Weight Total: </span>
                                     {list
@@ -23,18 +22,17 @@ const Totals = () => {
                                 </li>
                                 <li className="list-group-item"><span className="text-muted">Weight Average: </span>
                                     {(
-                                        listContainers?.data
-                                            ?.map((item) => item.weight)
+                                        list?.map((item) => item.weight)
                                             .reduce((acc, curr) => acc + curr, 0) /
-                                        listContainers?.data.length
+                                        list?.length
                                     ).toFixed(1) ?? 0}
                                     {' kg'}
                                 </li>
                                 <li className="list-group-item"><span className="text-muted">Flammable Cargos: </span>
                                     {list?.filter((acc) => acc.flammable > 0).length ?? 0}
                                 </li>
-                                <li className="list-group-item"><span className="text-muted"> Perishable Cargos: </span>
-                                    {list?.filter((acc) => acc.perishable > 0).length ?? 0}
+                                <li className="list-group-item"><span className="text-muted">Not Flammable Cargos: </span>
+                                    {list?.filter((acc) => acc.flammable === 0).length ?? 0}
                                 </li>
                             </ul>
                         </div>
@@ -46,19 +44,19 @@ const Totals = () => {
                         <div className="card-body">
                             <ul className="list-group list-group-flush">
                                 <li className="list-group-item"><span className="text-muted">Containers Total: </span>
-                                    {listContainers?.data?.filter((acc) => acc.type !== null).length ?? 0}
+                                    {contList?.data?.filter((acc) => acc.cont_type !== null).length ?? 0}
                                 </li>
-                                <li className="list-group-item"><span className="text-muted">Plain Containers: </span>
-                                    {listContainers?.data?.filter((acc) => acc.type === 1).length ?? 0}
+                                <li className="list-group-item"><span className="text-muted">Aircraft Containers: </span>
+                                    {contList?.data?.filter((acc) => acc.cont_type === 1).length ?? 0}
                                 </li>
                                 <li className="list-group-item"><span className="text-muted">Truck Containers: </span>
-                                    {listContainers?.data?.filter((acc) => acc.type === 2).length ?? 0}
+                                    {contList?.data?.filter((acc) => acc.cont_type === 2).length ?? 0}
                                 </li>
                                 <li className="list-group-item"><span className="text-muted">Ship Containers: </span>
-                                    {listContainers?.data?.filter((acc) => acc.type === 3).length ?? 0}
+                                    {contList?.data?.filter((acc) => acc.cont_type === 3).length ?? 0}
                                 </li>
-                                <li className="list-group-item"><span className="text-muted">Cargos per Container Average: </span>
-                                    {(listContainers === null ? null : listContainers.data.length / listContainers?.data?.filter((acc) => acc.type !== null).length) ?? 0}
+                                <li className="list-group-item"><span className="text-muted">Cargos per Container: </span>
+                                    {(contList === null ? null : contList.data.length / contList?.data?.filter((acc) => acc.cont_type !== null).length) ?? 0}
                                 </li>
                             </ul>
                         </div>

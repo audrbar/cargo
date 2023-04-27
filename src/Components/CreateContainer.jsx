@@ -1,37 +1,39 @@
 import { useContext, useState } from 'react';
 import { Global } from './GlobalContext';
 
-const ContainerEdit = ({ id }) => {
-    const { contList, editContainer, setRoute } = useContext(Global);
-    const containerItem = contList.data.find(c => (c.cont_id) === id);
-    const [type, setType] = useState(containerItem.type);
+const CreateContainer = () => {
+
+    const { createCont, setRoute } = useContext(Global);
+    const [contTitle, setContTitle] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('');
 
     function handleCategoryChange(e) {
         setSelectedCategory(e.target.value);
     }
-
-    const editCont = (e) => {
+    const createC = (e) => {
         e.preventDefault();
-        editContainer({
-            id: id,
-            cont_id: id,
+        createCont({
+            cont_title: contTitle,
             cont_type: parseInt(selectedCategory),
         });
-        setType('');
         setRoute('containers-list-page');
     };
 
     return (
         <div className="container">
             <div className="row justify-content-center">
-                <div className="col-10 col-md-7 col-lg-6 col-xl-5 col-xxl-5">
+                <div className="col-10 col-md-9 col-lg-8 col-xl-7 col-xxl-6">
                     <div className="card mt-4">
-                        <div className="card-header text-center">Edit a container</div>
+                        <div className="card-header text-center">Create a container</div>
                         <div className="card-body">
-                            <p className="form-label"><span className="text-muted">title: </span>{containerItem.cont_title}</p>
-                            <p><span className="text-muted">type: </span>{containerItem.cont_type === 1 ? 'Aircraft container' : containerItem.cont_type === 2 ? 'Truck container' : 'Ship container'}</p>
-                            <label htmlFor="category list" className="form-label">Choose different container type:</label>
+                            <label className="form-label">Container title</label>
+                            <input
+                                className="form-control"
+                                type="text"
+                                value={contTitle}
+                                onChange={(e) => setContTitle(e.target.value)}
+                            />
+                            <label htmlFor="category list" className="form-label">Choose container type:</label>
                             <select
                                 className="form-select my-1"
                                 name="category list"
@@ -46,20 +48,17 @@ const ContainerEdit = ({ id }) => {
                             <div className="flex flex-row items-center justify-between">
                                 <button
                                     className="btn btn-outline-primary mt-2"
-                                    onClick={editCont}
+                                    onClick={createC}
                                 >
                                     SUBMIT
                                 </button>
                             </div>
                         </div>
                     </div>
-                    <p className="nav-item text-center cursor-pointer mt-4" role="button" onClick={_ => setRoute('containers-list-page')}>
-                        Back to Containers Page
-                    </p>
                 </div>
             </div>
         </div>
     );
 };
 
-export default ContainerEdit;
+export default CreateContainer;

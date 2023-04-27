@@ -12,7 +12,7 @@ export const GlobalProvider = ({ children }) => {
     const [authName, setAuthName] = useState(null);
     const [authRole, setAuthRole] = useState(3);
     const [list, setList] = useState(null);
-    const [listContainers, setListContainers] = useState(null);
+    const [contList, setContList] = useState(null);
     const [managersList, setManagersList] = useState(null);
     const [response, setResponse] = useState();
     const uuid = uuidv4();
@@ -53,16 +53,26 @@ export const GlobalProvider = ({ children }) => {
             .then(after);
     };
 
+    const loadGood = (good) => {
+        axios.put('http://localhost:3003/loadgood/' + good.id, good, { withCredentials: true })
+            .then(after);
+    };
+
     // **************** Get, Create, Update, Delete CONTAINERS AND GOODS *****************
 
     const getContainers = () => {
         axios.get('http://localhost:3003/containers', { withCredentials: true })
-            .then(res => setListContainers(res.data));
+            .then(res => setContList(res.data));
     };
 
     useEffect(() => {
         getContainers();
     }, []);
+
+    const createCont = (createC) => {
+        axios.post('http://localhost:3003/containers', createC, { withCredentials: true })
+            .then(after);
+    }
 
     const editContainer = (container) => {
         axios.put('http://localhost:3003/container/' + container.cont_id, container, { withCredentials: true })
@@ -137,7 +147,10 @@ export const GlobalProvider = ({ children }) => {
         <Global.Provider
             value={{
                 list,
-                listContainers,
+                loadGood,
+                setContList,
+                createCont,
+                contList,
                 editGood,
                 deleteGood,
                 createGood,
